@@ -1,4 +1,4 @@
-#version 1.1
+#version 1.2
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
