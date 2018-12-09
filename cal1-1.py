@@ -399,6 +399,44 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         self.buttonPoint.clicked.connect(self.run_point)
         self.buttonChange.clicked.connect(self.run_change)
 
+    def keyPressEvent(self, event):
+        if event.key() == 48:
+            self.run_0()
+        if event.key() == 49:
+            self.run_1()
+        if event.key() == 50:
+            self.run_2()
+        if event.key() == 51:
+            self.run_3()
+        if event.key() == 52:
+            self.run_4()
+        if event.key() == 53:
+            self.run_5()
+        if event.key() == 54:
+            self.run_6()
+        if event.key() == 55:
+            self.run_7()
+        if event.key() == 56:
+            self.run_8()
+        if event.key() == 57:
+            self.run_9()
+        if event.key() == 16777219:
+            self.run_del()
+        if event.key() == 16777220 or event.key() == 16777221:
+            self.run_rovno()
+        if event.key() == 46:
+            self.run_point()
+        if event.key() == 47:
+            self.run_delenie()
+        if event.key() == 42:
+            self.run_multi()
+        if event.key() == 61:
+            self.run_rovno()
+        if event.key() == 45:
+            self.run_minus()
+        if event.key() == 43:
+            self.run_plus()
+
     def run_0(self):
         if self.label_2.text() == '' and self.label_1.text() != '0':
             self.label_1.setText("{}".format(str(self.label_1.text() + '0')))
