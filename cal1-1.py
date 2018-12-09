@@ -1,5 +1,6 @@
 #Version 1.4 with keyboard input, but without lots of functions
 #Some bugs have been fixed and the program termination feature has been added
+
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from math import *
