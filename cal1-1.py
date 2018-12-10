@@ -475,7 +475,6 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         self.buttonCtg.clicked.connect(self.run_ctg)
         self.buttonPi.clicked.connect(self.run_pi)
 
-
     def keyPressEvent(self, event):
         if event.key() == 48:
             self.run_0()
