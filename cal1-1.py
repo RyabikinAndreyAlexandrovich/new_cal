@@ -1,5 +1,4 @@
-# Version 1.4 with keyboard input, but without lots of functions
-# Some bugs have been fixed and the program termination feature has been added
+# Version 2.0 with keyboard input and new functions
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -51,11 +50,17 @@ def res(self):
 def add_digit(self, digit):
     if self.label_2.text() == '':
         if self.label_1.text() != '0':
+            if digit == pi and '.' in self.label_1.text():
+                self.label_1.setText(str(pi))
+                return
             self.label_1.setText("{}".format(str(self.label_1.text() + str(digit))))
         else:
             self.label_1.setText(str(digit))
     if self.label_2.text() not in ['', '!', '√', 'sin', 'cos', 'tg', 'ctg']:
         if self.label_3.text() != '0':
+            if digit == pi and '.' in self.label_3.text():
+                self.label_3.setText(str(pi))
+                return
             self.label_3.setText("{}".format(str(self.label_3.text() + str(digit))))
         else:
             self.label_3.setText(str(digit))
@@ -440,6 +445,7 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         self.buttonCos.clicked.connect(self.run_cos)
         self.buttonTg.clicked.connect(self.run_tg)
         self.buttonCtg.clicked.connect(self.run_ctg)
+        self.buttonPi.clicked.connect(self.run_pi)
 
 
     def keyPressEvent(self, event):
@@ -604,7 +610,7 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         res(self)
 
     def run_pi(self):
-        pass
+        add_digit(self, pi)
 
 
 if __name__ == "__main__":
