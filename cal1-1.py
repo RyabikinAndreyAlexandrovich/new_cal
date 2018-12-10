@@ -1,9 +1,10 @@
-#Version 1.4 with keyboard input, but without lots of functions
-#Some bugs have been fixed and the program termination feature has been added
+# Version 1.4 with keyboard input, but without lots of functions
+# Some bugs have been fixed and the program termination feature has been added
 
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from math import *
+import sys
 
 
 def res(self):
@@ -16,13 +17,29 @@ def res(self):
         if sec == '√' and fir >= 0:
             self.label_4.setText("={}".format(sqrt(fir)))
             return
+        if sec == 'sin':
+            self.label_4.setText('={}'.format(round(sin(radians(fir)), 6)))
+            return
+        if sec == 'cos':
+            self.label_4.setText('={}'.format(round(cos(radians(fir)), 6)))
+            return
+        if sec == 'tg':
+            self.label_4.setText('={}'.format(round(tan(radians(fir)), 6)))
+            return
+        if sec == 'ctg':
+            self.label_4.setText('={}'.format(round(1/tan(radians(fir)), 6)))
+            return
+        if sec == '/':
+            if self.label_3.text().isdigit():
+                self.label_4.setText("={}".format(fir / float(self.label_3.text())))
+            else:
+                self.label_4.setText('')
+            return
         thi = float(self.label_3.text())
         if sec == '*':
             self.label_4.setText("={}".format(fir * thi))
         if sec == '**':
             self.label_4.setText("={}".format(fir ** thi))
-        if sec == '/':
-            self.label_4.setText("={}".format(fir / thi))
         if sec == '-':
             self.label_4.setText("={}".format(fir - thi))
         if sec == '+':
@@ -30,6 +47,26 @@ def res(self):
     except Exception:
         self.label_4.setText("ERROR")
 
+
+def add_digit(self, digit):
+    if self.label_2.text() == '':
+        if self.label_1.text() != '0':
+            self.label_1.setText("{}".format(str(self.label_1.text() + str(digit))))
+        else:
+            self.label_1.setText(str(digit))
+    if self.label_2.text() not in ['', '!', '√', 'sin', 'cos', 'tg', 'ctg']:
+        if self.label_3.text() != '0':
+            self.label_3.setText("{}".format(str(self.label_3.text() + str(digit))))
+        else:
+            self.label_3.setText(str(digit))
+        res(self)
+
+
+def add_operation(self, operation):
+    if self.label_1.text() != '':
+        if self.label_4.text() != '':
+            self.run_rovno()
+        self.label_2.setText(operation)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -313,7 +350,7 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label_1= QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.label_1 = QtWidgets.QLabel(self.verticalLayoutWidget)
         self.label_1.setText("")
         self.label_1.setObjectName("label")
         self.verticalLayout.addWidget(self.label_1)
@@ -399,6 +436,11 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         self.buttonRovno.clicked.connect(self.run_rovno)
         self.buttonPoint.clicked.connect(self.run_point)
         self.buttonChange.clicked.connect(self.run_change)
+        self.buttonSin.clicked.connect(self.run_sin)
+        self.buttonCos.clicked.connect(self.run_cos)
+        self.buttonTg.clicked.connect(self.run_tg)
+        self.buttonCtg.clicked.connect(self.run_ctg)
+
 
     def keyPressEvent(self, event):
         if event.key() == 48:
@@ -448,121 +490,31 @@ class MyWidget(QMainWindow, Ui_MainWindow):
             res(self)
 
     def run_1(self):
-        if self.label_2.text() == '':
-            if self.label_1.text() != '0':
-                self.label_1.setText("{}".format(str(self.label_1.text() + '1')))
-            else:
-                self.label_1.setText('1')
-        if self.label_2.text() not in ['', '!', '√']:
-            if self.label_3.text() != '0':
-                self.label_3.setText("{}".format(str(self.label_3.text() + '1')))
-            else:
-                self.label_3.setText('1')
-            res(self)
+        add_digit(self, 1)
 
     def run_2(self):
-        if self.label_2.text() == '':
-            if self.label_1.text() != '0':
-                self.label_1.setText("{}".format(str(self.label_1.text() + '2')))
-            else:
-                self.label_1.setText("2")
-        if self.label_2.text() not in ['', '!', '√']:
-            if self.label_3.text() != '0':
-                self.label_3.setText("{}".format(str(self.label_3.text() + '2')))
-            else:
-                self.label_3.setText("2")
-            res(self)
+        add_digit(self, 2)
 
     def run_3(self):
-        if self.label_2.text() == '':
-            if self.label_1.text() != '0':
-                self.label_1.setText("{}".format(str(self.label_1.text() + '3')))
-            else:
-                self.label_1.setText("3")
-        if self.label_2.text() not in ['', '!', '√']:
-            if self.label_3.text() != '0':
-                self.label_3.setText("{}".format(str(self.label_3.text() + '3')))
-            else:
-                self.label_3.setText("3")
-            res(self)
+        add_digit(self, 3)
 
     def run_4(self):
-        if self.label_2.text() == '':
-            if self.label_1.text() != '0':
-                self.label_1.setText("{}".format(str(self.label_1.text() + '4')))
-            else:
-                self.label_1.setText("4")
-        if self.label_2.text() not in ['', '!', '√']:
-            if self.label_3.text() != '0':
-                self.label_3.setText("{}".format(str(self.label_3.text() + '4')))
-            else:
-                self.label_3.setText("4")
-            res(self)
+        add_digit(self, 4)
 
     def run_5(self):
-        if self.label_2.text() == '':
-            if self.label_1.text() != '0':
-                self.label_1.setText("{}".format(str(self.label_1.text() + '5')))
-            else:
-                self.label_1.setText("5")
-        if self.label_2.text() not in ['', '!', '√']:
-            if self.label_3.text() != '0':
-                self.label_3.setText("{}".format(str(self.label_3.text() + '5')))
-            else:
-                self.label_3.setText("5")
-            res(self)
+        add_digit(self, 5)
 
     def run_6(self):
-        if self.label_2.text() == '':
-            if self.label_1.text() != '0':
-                self.label_1.setText("{}".format(str(self.label_1.text() + '6')))
-            else:
-                self.label_1.setText('6')
-        if self.label_2.text() not in ['', '!', '√']:
-            if self.label_3.text() != '0':
-                self.label_3.setText("{}".format(str(self.label_3.text() + '6')))
-            else:
-                self.label_3.setText('6')
-            res(self)
+        add_digit(self, 6)
 
     def run_7(self):
-        if self.label_2.text() == '':
-            if self.label_1.text() != '0':
-                self.label_1.setText("{}".format(str(self.label_1.text() + '7')))
-            else:
-                self.label_1.setText('7')
-        if self.label_2.text() not in ['', '!', '√']:
-            if self.label_3.text() != '0':
-                self.label_3.setText("{}".format(str(self.label_3.text() + '7')))
-            else:
-                self.label_3.setText('7')
-            res(self)
+        add_digit(self, 7)
 
     def run_8(self):
-        if self.label_2.text() == '':
-            if self.label_1.text() != '0':
-                self.label_1.setText("{}".format(str(self.label_1.text() + '8')))
-            else:
-                self.label_1.setText('8')
-        if self.label_2.text() not in ['', '!', '√']:
-            if self.label_3.text() != '0':
-                self.label_3.setText("{}".format(str(self.label_3.text() + '8')))
-            else:
-                self.label_3.setText('8')
-            res(self)
+        add_digit(self, 8)
 
     def run_9(self):
-        if self.label_2.text() == '':
-            if self.label_1.text() != '0':
-                self.label_1.setText("{}".format(str(self.label_1.text() + '9')))
-            else:
-                self.label_1.setText('9')
-        if self.label_2.text() not in ['', '!', '√']:
-            if self.label_3.text() != '0':
-                self.label_3.setText("{}".format(str(self.label_3.text() + '9')))
-            else:
-                self.label_3.setText('9')
-            res(self)
+        add_digit(self, 9)
 
     def run_c(self):
         self.label_1.setText('')
@@ -586,48 +538,27 @@ class MyWidget(QMainWindow, Ui_MainWindow):
                 res(self)
 
     def run_multi(self):
-        if self.label_1.text() != '':
-            if self.label_4.text() != '':
-                self.run_rovno()
-            self.label_2.setText('*')
+        add_operation(self, '*')
 
     def run_minus(self):
-        if self.label_1.text() != '':
-            if self.label_4.text() != '':
-                self.run_rovno()
-            self.label_2.setText('-')
+        add_operation(self, '-')
 
     def run_plus(self):
-        if self.label_1.text() != '':
-            if self.label_4.text() != '':
-                self.run_rovno()
-            self.label_2.setText('+')
+        add_operation(self, '+')
 
     def run_stepen(self):
-        if self.label_1.text() != '':
-            if self.label_4.text() != '':
-                self.run_rovno()
-            self.label_2.setText('**')
+        add_operation(self, '**')
 
     def run_koren(self):
-        if self.label_1.text() != '':
-            if self.label_4.text() != '':
-                self.run_rovno()
-            self.label_2.setText('√')
-            res(self)
+        add_operation(self, '√')
+        res(self)
 
     def run_factor(self):
-        if self.label_1.text() != '':
-            if self.label_4.text() != '':
-                self.run_rovno()
-            self.label_2.setText('!')
-            res(self)
+        add_operation(self, '!')
+        res(self)
 
     def run_delenie(self):
-        if self.label_1.text() != '':
-            if self.label_4.text() != '':
-                self.run_rovno()
-            self.label_2.setText('/')
+        add_operation(self, '/')
 
     def run_rovno(self):
         if self.label_4.text() != 'ERROR' and self.label_4.text() != "":
@@ -655,6 +586,25 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         if self.label_3.text() not in ['', '0']:
             self.label_3.setText("{}".format(-float(self.label_3.text())))
             res(self)
+
+    def run_sin(self):
+        add_operation(self, 'sin')
+        res(self)
+
+    def run_cos(self):
+        add_operation(self, 'cos')
+        res(self)
+
+    def run_tg(self):
+        add_operation(self, 'tg')
+        res(self)
+
+    def run_ctg(self):
+        add_operation(self, 'ctg')
+        res(self)
+
+    def run_pi(self):
+        pass
 
 
 if __name__ == "__main__":
