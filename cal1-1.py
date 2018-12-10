@@ -1,4 +1,4 @@
-# Version 2.0 with keyboard input and new functions
+# Version 2.1 with a new function(DEG/RAD)
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -10,6 +10,9 @@ def res(self):
     try:
         fir = float(self.label_1.text())
         sec = self.label_2.text()
+        deg = fir
+        if self.radioButtonDeg.isChecked():
+            deg = radians(fir)
         if sec == '!':
             self.label_4.setText("={}".format(factorial(fir)))
             return
@@ -17,16 +20,16 @@ def res(self):
             self.label_4.setText("={}".format(sqrt(fir)))
             return
         if sec == 'sin':
-            self.label_4.setText('={}'.format(round(sin(radians(fir)), 6)))
+            self.label_4.setText('={}'.format(round(sin(deg), 6)))
             return
         if sec == 'cos':
-            self.label_4.setText('={}'.format(round(cos(radians(fir)), 6)))
+            self.label_4.setText('={}'.format(round(cos(deg), 6)))
             return
         if sec == 'tg':
-            self.label_4.setText('={}'.format(round(tan(radians(fir)), 6)))
+            self.label_4.setText('={}'.format(round(tan(deg), 6)))
             return
         if sec == 'ctg':
-            self.label_4.setText('={}'.format(round(1/tan(radians(fir)), 6)))
+            self.label_4.setText('={}'.format(round(1/tan(deg), 6)))
             return
         if sec == '/':
             if self.label_3.text().isdigit():
@@ -72,6 +75,7 @@ def add_operation(self, operation):
         if self.label_4.text() != '':
             self.run_rovno()
         self.label_2.setText(operation)
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -351,26 +355,48 @@ class Ui_MainWindow(object):
         self.buttonPi.setObjectName("buttonPi")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(30, 10, 160, 80))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.verticalLayoutWidget.setFont(font)
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_1 = QtWidgets.QLabel(self.verticalLayoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_1.setFont(font)
         self.label_1.setText("")
         self.label_1.setObjectName("label")
         self.verticalLayout.addWidget(self.label_1)
         self.label_2 = QtWidgets.QLabel(self.verticalLayoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_2.setFont(font)
         self.label_2.setText("")
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
         self.label_3 = QtWidgets.QLabel(self.verticalLayoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_3.setFont(font)
         self.label_3.setText("")
         self.label_3.setObjectName("label_3")
         self.verticalLayout.addWidget(self.label_3)
         self.label_4 = QtWidgets.QLabel(self.verticalLayoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_4.setFont(font)
         self.label_4.setText("")
         self.label_4.setObjectName("label_4")
         self.verticalLayout.addWidget(self.label_4)
+        self.radioButtonDeg = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioButtonDeg.setGeometry(QtCore.QRect(210, 70, 82, 17))
+        self.radioButtonDeg.setObjectName("radioButtonDeg")
+        self.radioButtonDeg.setChecked(True)
+        self.radioButtonRad = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioButtonRad.setGeometry(QtCore.QRect(210, 90, 82, 17))
+        self.radioButtonRad.setObjectName("radioButtonRad")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 298, 21))
@@ -413,6 +439,8 @@ class Ui_MainWindow(object):
         self.buttonC.setText(_translate("MainWindow", "C"))
         self.buttonPoint.setText(_translate("MainWindow", "."))
         self.buttonPi.setText(_translate("MainWindow", "¶"))
+        self.radioButtonDeg.setText(_translate("MainWindow", "DEG"))
+        self.radioButtonRad.setText(_translate("MainWindow", "RAD"))
 
 
 class MyWidget(QMainWindow, Ui_MainWindow):
